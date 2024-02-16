@@ -13,7 +13,7 @@ The Weather data comes from the Open Weather API
 Accessible on Git Hub Pages at the link below in 'usage'.
 
 ## Usage
-The site can be accessed here: 
+The site can be accessed here: https://tejpatta.github.io/Weather-Dashboard/
 
 Search a city to get the current weather and the next five days' forecast. You can also search a city from your previous searches by clicking the dynamically generated buttons in the sidebar. 
 
