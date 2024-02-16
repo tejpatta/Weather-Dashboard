@@ -1,19 +1,34 @@
-// take in the city name input typed by the user
 
 let key = '1aff72a595bc5c38e3d0296bf6ef9274'
+
 //initialize latitude and longitude variables to store coordinates of City Search
 let lat =""
 let lon =""
+
+
 let today = $('#today')
 let forecast = $('#forecast')
 
 
 
 // functions
+
 // save the search term as a button
-function generateCityButton(){
-    
+function renderHistory() {
+    let searchHistory = Object.values(localStorage);
+    $("#history").empty(); 
+    for (var i = 0; i < searchHistory.length; i++) {
+        $("#history").append($('<button class="btn history-search-btn btn-success m-2">').text(searchHistory[i]));
+    }
 }
+
+//clears history 
+$('#clear').click(function(){
+    localStorage.clear();
+})
+
+
+
 function dashboard(url){
     fetch(url)
     .then(function (response) {
@@ -36,6 +51,7 @@ function clearView(){
     $('#today').empty()
     $('#forecast').empty()
 }
+
 //get and display the current weather
 function displayCurrentWeather(url){
     fetch(url)
@@ -51,7 +67,7 @@ function displayCurrentWeather(url){
     let currentTemperature = Math.round(data.main.temp);
     let currentWind = data.wind.speed;
     let currentHumidity = data.main.humidity;
-
+        console.log(data);
 
     today.append(
         $('<div class="card p-3 m-2 border-success">').append([
@@ -110,6 +126,17 @@ $('#search-button').click(function(event){
     let citySearched = $("#search-input").val().trim(); 
     let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
     event.preventDefault();
+    clearView();
+ dashboard(geocodeURL);
+ localStorage.setItem(citySearched)
+ renderHistory()
+})
+
+//display from history button
+$('.history-search-btn').click(function(e){
+    let citySearched = $("#search-input").val().trim(); 
+    let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
+    e.preventDefault();
     clearView();
  dashboard(geocodeURL);
 })
