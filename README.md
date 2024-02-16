@@ -1,6 +1,7 @@
 # Weather-Dashboard
 
 ## Description
+![image](https://github.com/tejpatta/Weather-Dashboard/assets/147752590/5bd6f3d8-a952-4c84-b1e2-10795882509a)
 
 This webpage was created in response to a boot camp assignment to apply skills learnt in JavaScript and working with APIs. This application is a weather dashboard which displays current weather information at the time of search and the next 5 Days' Forecast. 
 
