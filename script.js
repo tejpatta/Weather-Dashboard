@@ -15,16 +15,34 @@ let forecast = $('#forecast')
 
 // save the search term as a button
 function renderHistory() {
-    let searchHistory = Object.values(localStorage);
-    $("#history").empty(); 
-    for (var i = 0; i < searchHistory.length; i++) {
-        $("#history").append($('<button class="btn history-search-btn btn-success m-2">').text(searchHistory[i]));
-    }
+    let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    $("#history").empty();
+    searchHistory.forEach(function (item) {
+        let historyButton = $('<button>').addClass('btn history-search-btn btn-success m-2').text(item);
+        $("#history").append(historyButton);
+        historyButton.click(function(e){
+            e.preventDefault();
+            let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + item + '&limit=1&appid=' + key;
+            clearView();
+            dashboard(geocodeURL);
+        });
+    });
 }
+
+
+function saveHistory(city){
+    let history = JSON.parse(localStorage.getItem("searchHistory")) || []
+    if (!history.includes(city)){
+        history.push(city);
+        localStorage.setItem("searchHistory", JSON.stringify(history));
+    } renderHistory();
+}
+
 
 //clears history 
 $('#clear').click(function(){
     localStorage.clear();
+    renderHistory();
 })
 
 
@@ -59,7 +77,6 @@ function displayCurrentWeather(url){
         return response.json();
     })
     .then(function(data){
-        console.log(data);
     let cityName = data.name;
     let currentDate = dayjs().format('DD MMM YYYY');
     let icon = data.weather[0].icon;
@@ -123,20 +140,15 @@ function displayForecast(url){
 //event listeners to run the functions
 
 $('#search-button').click(function(event){
-    let citySearched = $("#search-input").val().trim(); 
-    let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
     event.preventDefault();
-    clearView();
- dashboard(geocodeURL);
- localStorage.setItem(citySearched)
- renderHistory()
+    let citySearched = $("#search-input").val().trim(); 
+    if (citySearched){
+        let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
+        clearView();
+        dashboard(geocodeURL);
+        saveHistory(citySearched);
+
+    } 
+
 })
 
-//display from history button
-$('.history-search-btn').click(function(e){
-    let citySearched = $("#search-input").val().trim(); 
-    let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
-    e.preventDefault();
-    clearView();
- dashboard(geocodeURL);
-})
