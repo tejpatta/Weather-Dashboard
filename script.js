@@ -143,7 +143,7 @@ $('#search-button').click(function(event){
     event.preventDefault();
     let citySearched = $("#search-input").val().trim(); 
     if (citySearched){
-        let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
+        let geocodeURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + citySearched + '&limit=1&appid=' + key
         clearView();
         dashboard(geocodeURL);
         saveHistory(citySearched);
