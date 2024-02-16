@@ -22,7 +22,7 @@ function renderHistory() {
         $("#history").append(historyButton);
         historyButton.click(function(e){
             e.preventDefault();
-            let geocodeURL = 'http://api.openweathermap.org/geo/1.0/direct?q=' + item + '&limit=1&appid=' + key;
+            let geocodeURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + item + '&limit=1&appid=' + key;
             clearView();
             dashboard(geocodeURL);
         });
